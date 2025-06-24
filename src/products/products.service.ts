@@ -25,8 +25,8 @@ export class ProductsService {
     {
       id: 3,
       name: 'Manzanitas',
-      price: 3.5,
-      description: 'Manzanas are a type of apple that are small and round.',
+      price: 100,
+      description: 'Manzanitas are a type of apple that are small and round.',
     },
   ];
 
@@ -43,10 +43,19 @@ export class ProductsService {
       discountValue = discount;
     }
 
+    if (discountValue > 100) {
+      throw new Error('Discount must be less than 100%');
+    }
+
     return product.price * (1 - discountValue / 100);
   }
 
-  getIva(price: number): number {
-    return price * 0.13;
+  getIva(productId: number): number {
+    const product = this.products.find((p) => p.id === productId);
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    return product.price * 0.13;
   }
 }
