@@ -45,4 +45,8 @@ export class ProductsService {
 
     return product.price * (1 - discountValue / 100);
   }
+
+  getIva(price: number): number {
+    return price * 0.13;
+  }
 }
