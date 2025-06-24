@@ -30,11 +30,19 @@ export class ProductsService {
     },
   ];
 
-  getDiscountedPrice(productId: number, discount: number): number {
+  getDiscountedPrice(productId: number, discount: string | number): number {
     const product = this.products.find((p) => p.id === productId);
     if (!product) {
       throw new Error('Product not found');
     }
-    return product.price * (1 - discount / 100);
+
+    let discountValue: number;
+    if (typeof discount === 'string') {
+      discountValue = parseFloat(discount.replace('%', ''));
+    } else {
+      discountValue = discount;
+    }
+
+    return product.price * (1 - discountValue / 100);
   }
 }
